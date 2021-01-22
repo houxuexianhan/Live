@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>直播</title>
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	 <link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
+		<script src="//vjs.zencdn.net/5.19/video.min.js"></script>
+</head>
+<body style="background: #fff;">
+	<div th:replace="fragment/header"></div>
+	<div th:if="${live!=null}" class="container px-1 d-flex flex-column justify-content-center mt-0 bg-dark">
+		 <video id="videoElement" controls>
+		 	<source th:src="@{${live.url}+'.m3u8'}">
+		 </video>
+		<div class="d-flex p-3">
+					<font class="flex-grow-1 ml-2"   color="white"><span th:text="${live.name}">标题</span>  </font>
+					<span ><font  color="white">在线人数:</font><font color="red"><b th:text="${live.clients}">30</b></font></span>  
+				</div>	
+	<div th:if="${live==null}" class="container px-1 d-flex justify-content-center" style="margin-top: 30px;">
+		<b>直播已结束</b>
+	</div>
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/res/plugins/flv.js"></script>
+    <script th:inline="javascript">
+    var u = navigator.userAgent;
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (!isiOS && flvjs.isSupported()) {
+    	var url = /*[[${live.url}]]*/ "#";
+    	url = url+".flv"
+        var videoElement = document.getElementById('videoElement');
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: url
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+    }
+</script>
+</body>
+</html>

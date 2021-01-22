@@ -1,0 +1,47 @@
+<style type="text/css">
+   	header-bar a,header-bar a:hover, header-bar .btn-link:hover{
+   		color:#272a2f;
+   		text-decoration: none;
+   	}
+   	header-bar .nav-item,header-bar .nav-item a,header-bar .btn-link{
+   		color:#697384;
+   		font-size: 16px;
+    	font-weight: 600;
+   	}
+   	header-bar .nav-item a:not(.link-active):hover{
+   		color:#272a2f;
+   	}
+   	header-bar .nav-item .link-active{
+   	    color: #272a2f;
+  		cursor: default;
+   	}
+ 
+   	</style>
+	<header-bar class="hydrated" style="display: block;position: -webkit-sticky;position: sticky;top: 0;z-index: 999;" >
+		<header class="overlay"  style="border-bottom: 1px solid rgba(0, 0, 0, 0.05);background: #FFF;height: 64px;">
+		<div class="container d-flex align-items-center" style="padding-top: 12px;padding-bottom: 12px;">
+			<div class="mr-5" >
+				<a class="" href="/" style="text-decoration: none;"> <img class="h-100" alt=""
+					src="/res/dist/img/logo.png">
+					<span class="text-info">海师视频平台</span>
+				</a>
+			</div>
+			<nav class="d-flex align-items-baseline flex-grow-1" style="flex: 0 0 auto;">
+				<span class="nav-item"><a id="pageIndex" class="" href="/" >首页</a></span>
+				<span class="nav-item"><a id="pageVideo" class="ml-3" href="/pageVideo" >视频</a></span>
+				<span class="nav-item"><a id="pageLive" class="ml-3" href="/pageLive" >直播</a></span>
+			</nav>
+			<nav class="d-flex align-items-center" style="flex: 0 0 auto;">
+				<a sec:authorize="isAuthenticated()" class="nav-item" href="/" style=""><font color="blue">
+					<b sec:authentication="name">aabb</b></font></a>
+				<span sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item ml-3">
+					<a id="pageVideoMng"  href="/mng" >视频管理</a></span>
+				<span sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item ml-3">
+					<a id="pageVideoMng"  href="/console/index.html" target="_blank">SRS控制台</a></span>
+				<form th:action="@{/logout}" method="post"><button sec:authorize="isAuthenticated()" type="submit" class="btn btn-link">退出</button> 
+		    	</form>
+				<a sec:authorize="isAnonymous()"  class="nav-item ml-3" href="/loginPage" >登录</a>
+			</nav>
+		</div>
+	</header>
+</header-bar>

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hs.live.entity.HsFileServer;
 import com.hs.live.entity.HsVideo;
 import com.hs.live.service.IHsUserService;
 import com.hs.live.service.IHsVideoService;
@@ -61,17 +64,24 @@ public class WebController {
 		model.addAttribute("streams", getActiveStreams());
 		return "fragment/liveFragment";
 	}
-	private JSONArray getActiveStreams() {
-		String url = liveProperties.getSrsApiServer()+"/api/v1/streams/";
-		String rs =  rt.getForObject(url, String.class);
-		JSONObject jo = JSONObject.parseObject(rs);
-		JSONArray arr = jo.getJSONArray("streams");
-		JSONArray rsArr = new JSONArray();
-		for(int i=0;i<arr.size();i++) {
-			JSONObject s = arr.getJSONObject(i);
-			if(s.getJSONObject("publish").getBooleanValue("active")) rsArr.add(s);
+	private List<LiveStream>  getActiveStreams() {
+		List<LiveStream> ret = new ArrayList<>();
+		List<HsFileServer> fsList = fss.list();
+		for(HsFileServer fs:fsList) {
+			String api = "http://"+fs.getServerIp()+":"+fs.getSrsApiPort();
+			String url =api+"/api/v1/streams/";
+			String rs =  rt.getForObject(url, String.class);
+			JSONObject jo = JSONObject.parseObject(rs);
+			JSONArray arr = jo.getJSONArray("streams");
+			for(int i=0;i<arr.size();i++) {
+				JSONObject s = arr.getJSONObject(i);
+				LiveStream ls = LiveStream.from(s);
+				ls.ip = fs.getServerIp();
+				if(ls.active) ret.add(ls);
+			}
 		}
-		return rsArr;
+		//String url = liveProperties.getSrsApiServer()+"/api/v1/streams/";
+		return ret;
 	}
 	/*
 	 * @RequestMapping("/error") public String error(){ return "error"; }
@@ -109,14 +119,16 @@ public class WebController {
 		return "index";
 	}
 	@RequestMapping("/liveDetails")
-    public String liveDetails(Integer id,Model model){
-		if(id==null||id<=0 ) return "liveDetails";
-		String url = liveProperties.getSrsApiServer()+"/api/v1/streams/"+id;
+    public String liveDetails(String ip,Integer id,Model model){
+		if(id==null||id<=0 || ip==null || ip.isBlank()) return "liveDetails";
+		HsFileServer fs =  fss.getById(ip);
+		//String url = liveProperties.getSrsApiServer()+"/api/v1/streams/"+id;
+		String url =  "http://"+fs.getServerIp()+":"+fs.getSrsApiPort()+"/api/v1/streams/"+id;
 		String rs =  rt.getForObject(url, String.class);
 		JSONObject jo = JSONObject.parseObject(rs);
 		LiveStream ls = LiveStream.from(jo.getJSONObject("stream"));
 		if(!ls.active)	return "liveDetails";
-		ls.url = liveProperties.getSrsFlv()+"/"+ls.app+"/"+ls.name;
+		ls.url = "http://"+fs.getServerIp()+":"+fs.getSrsHttpPort()+"/"+ls.app+"/"+ls.name;
 		model.addAttribute("live", ls);
         return "liveDetails";
     }

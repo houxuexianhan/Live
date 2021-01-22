@@ -69,7 +69,15 @@ public class HsFileServer implements Serializable {
         return serverSchema;
     }
 
-    public void setServerSchema(String serverSchema) {
+    public int getSrsApiPort() {
+		return srsApiPort;
+	}
+
+	public void setSrsApiPort(int srsApiPort) {
+		this.srsApiPort = srsApiPort;
+	}
+
+	public void setServerSchema(String serverSchema) {
         this.serverSchema = serverSchema;
     }
     public int getServerPort() {

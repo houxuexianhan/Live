@@ -26,7 +26,7 @@
 		    <div class="col my-3 " th:each="v:${streams}">
 		       <div>
 			    	<div  class="bg-white pb-2">
-					    <a th:href="@{'/liveDetails?id='+${v.id}}" class="text-dark" target="_blank" >
+					    <a th:href="@{'/liveDetails?id='+${v.id}+'&ip='+${v.ip}}" class="text-dark" target="_blank" >
 							<img src="/res/dist/img/default_live.png" width="100%" class="bg-secondary">
 					    </a>
 				    </div>

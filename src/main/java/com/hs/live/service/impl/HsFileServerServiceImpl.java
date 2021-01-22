@@ -5,6 +5,7 @@ import com.hs.live.mapper.HsFileServerMapper;
 import com.hs.live.service.IHsFileServerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.cache.annotation.CacheConfig;
@@ -26,5 +27,10 @@ public class HsFileServerServiceImpl extends ServiceImpl<HsFileServerMapper, HsF
 	@Override
 	public List<HsFileServer> list() {
 		return super.list();
+	}
+	@Cacheable(key="#id",unless = "#result==null")
+	@Override
+	public HsFileServer getById(Serializable id) {
+		return super.getById(id);
 	}
 }

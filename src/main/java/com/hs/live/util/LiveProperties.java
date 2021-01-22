@@ -14,9 +14,6 @@ public class LiveProperties implements Serializable{
 	private String casServerUrl;
 	private String auth2Clientid;
 	private String auth2ClientSecret;
-	private String srsApiServer;
-	private String srsRtmp;//默认端口1935
-	private String srsFlv;
 	public String getCasServerUrl() {
 		return casServerUrl;
 	}
@@ -34,24 +31,6 @@ public class LiveProperties implements Serializable{
 	}
 	public void setAuth2ClientSecret(String auth2ClientSecret) {
 		this.auth2ClientSecret = auth2ClientSecret;
-	}
-	public String getSrsApiServer() {
-		return srsApiServer;
-	}
-	public void setSrsApiServer(String srsApiServer) {
-		this.srsApiServer = srsApiServer;
-	}
-	public String getSrsRtmp() {
-		return srsRtmp;
-	}
-	public void setSrsRtmp(String srsRtmp) {
-		this.srsRtmp = srsRtmp;
-	}
-	public String getSrsFlv() {
-		return srsFlv;
-	}
-	public void setSrsFlv(String srsFlv) {
-		this.srsFlv = srsFlv;
 	}
 	
 }

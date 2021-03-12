@@ -30,9 +30,9 @@
         <a  class="nav-link" href="/mng">视频管理</a>
       </li>
       <li id="pagePublish"  sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-        <a  class="nav-link" href="/publishLive">开直播</a>
+        <a  class="nav-link" href="#">开直播</a>
       </li>
-      <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+      <li id="pageSysMng" class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           系统管理
         </a>

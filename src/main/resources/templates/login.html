@@ -29,7 +29,7 @@
 			</div>
 		</form>
 		<p style="color: red;text-align: center;" th:if="${param.error}"   
-			th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message.substring(0,40)}"></p>
+			th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
 		</div>
 	</div>
 </body>

@@ -24,6 +24,19 @@ import com.hs.live.service.IHsVideoService;
 public class MngController {
 	@Autowired IHsVideoService vs;
 	
+	@RequestMapping("/srsMng")
+	public String srsMng() {
+		return "sys/srsMng";
+	}
+	@RequestMapping("/userMng")
+	public String userMng() {
+		return "sys/userMng";
+	}
+	@RequestMapping("/videoTypeMng")
+	public String videoTypeMng() {
+		return "sys/videoTypeMng";
+	}
+	
 	@RequestMapping("/videoList.do")
 	@ResponseBody
 	public String videoList(String videoType,Integer publicType) {
@@ -84,4 +97,8 @@ public class MngController {
 		if(rs)return JSON.toJSONString(new Result(true,"记录和文件均已删除成功！"));
 		else return  JSON.toJSONString(new Result(false,"文件已被删除，但记录删除失败！"));
 	}
+	
+	//用户管理
+	
+	
 }

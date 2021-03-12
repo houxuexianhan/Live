@@ -103,18 +103,18 @@ public class MyAuthenticationProvider extends AbstractUserDetailsAuthenticationP
 					return new User(username,passwordEncoder.encode(authentication.getCredentials().toString()),
 							new ArrayList<GrantedAuthority>(Arrays.asList( new SimpleGrantedAuthority("SSO")))
 							 );
+				}else {
+					throw new Exception("认证失败！");
 				}
 			}catch (Exception e) {
+				//e.printStackTrace();
 				System.out.println(e.getMessage());
-				throw new UsernameNotFoundException("认证失败！");
+				throw new UsernameNotFoundException("认证失败！！");
 			}
-			throw ex;
-		}
-		catch (InternalAuthenticationServiceException ex) {
-			throw ex;
 		}
 		catch (Exception ex) {
-			throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+			//ex.printStackTrace();
+			throw new UsernameNotFoundException("认证失败！");
 		}
 	}
 
